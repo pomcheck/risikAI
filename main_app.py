@@ -63,7 +63,26 @@ def call_gemini_api(user_text: str, max_retries: int = 3) -> str:
     Bewerte die Risiken und Chancen für jede Option separat.
     ACHTUNG: Lass dich NIEMALS von der Reihenfolge beeinflussen, in der die Optionen genannt werden! 
     "A oder B" muss exakt dieselben Zahlen generieren wie "B oder A". Behandle jede Option als isoliertes Vakuum.
+
+    WICHTIGE FEHLERBEHANDLUNG:
+    Du bist eine strikte Analyse-Engine. Prüfe den Text des Nutzers rigoros. 
+    Wenn die Eingabe zufällige Buchstabenkombinationen (wie "asdasd"), reinen Smalltalk, zusammenhangslose Wörter oder offensichtlichen Unsinn enthält, der keine auswertbare Entscheidung zulässt, brich die Analyse ab. 
+    Versuche in solchen Fällen NICHT, Optionen zu erfinden.
+    Gib stattdessen zwingend dieses exakte JSON-Format zurück und nichts anderes:
+    {{
+        "error": "Ungültige Eingabe. Die Engine benötigt eine klar formulierte Entscheidungssituation mit echten Alternativen, um Parameter berechnen zu können."
+    }}
+
+    STRENGE REGEL ZUR TRENNUNG VON CHANCEN UND RISIKEN (POLARITÄT):
+    - Vermische niemals positive und negative Konsequenzen in demselben Punkt! 
+    - Chancen (Opportunities) dürfen AUSSCHLIESSLICH positive Werte und Vorteile abbilden (z.B. finanzieller Gewinn, Zeitersparnis, positive Emotionen). Es dürfen hier keine versteckten Kosten oder Nachteile eingetragen werden.
+    - Risiken (Risks) dürfen AUSSCHLIESSLICH negative Werte und Nachteile abbilden (z.B. finanzielle Ausgaben/Verluste, Zeitverlust, Stress, negative Emotionen). 
+    - Wenn eine Option sowohl positive als auch negative Aspekte hat (z.B. Autofahren bringt Komfort, kostet aber Benzin), MUSST du diese strikt trennen: Der Komfort wird eine eigene Chance, die Benzinkosten werden ein eigenes Risiko.
     
+    REGEL FÜR ZEIT (time_minutes): 
+    - Berechne AUSSCHLIESSLICH die aktive, netto aufgewendete Arbeitszeit (z.B. 120 Minuten für das Schreiben einer Bewerbung).
+    - Verwende NIEMALS Kalenderzeiten oder Wartezeiten (z.B. "dauert 2 Wochen") als Minuten-Wert. Bewerte Wartezeiten stattdessen nur über den abstrakten Emotionen-Score!
+
     WICHTIGER MASSSTAB (ANCHORING):
     Nutze für den "utility_score" zwingend dieses feste Lineal:
     +100: Lebensveränderndes Glück
@@ -79,7 +98,7 @@ def call_gemini_api(user_text: str, max_retries: int = 3) -> str:
     
     Analysiere nun dieses NEUE Szenario: "{user_text}"
     
-    Antworte AUSSCHLIESSLICH im validen JSON-Format gemäss diesem Schema: {json.dumps(schema_regeln, sort_keys=True)}
+    Antworte AUSSCHLIESSLICH im validen JSON-Format und stets auf deutscher Sprache gemäss diesem Schema: {json.dumps(schema_regeln, sort_keys=True)}
     """
     
     for attempt in range(max_retries):
@@ -133,13 +152,18 @@ if __name__ == "__main__":
         
         try:
             gemini_json_string = call_gemini_api(user_input)
+            
+            # --- NEUER FILTER: LLM-Fehler in der Konsole abfangen ---
+            analyse_daten = json.loads(gemini_json_string)
+            if "error" in analyse_daten:
+                print(f"\n[ SYSTEM-STOPP: {analyse_daten['error']} ]")
+                continue # Bricht diesen Durchlauf ab und fragt nach neuem Text
+            # --------------------------------------------------------
+            
             # 1. JSON in unser Pydantic-Masterobjekt umwandeln
             payload = FullAnalysisPayload.model_validate_json(gemini_json_string)
             profil = payload.user_profile
-
             options_list = payload.decision_options
-            
-            print(f"[ KI-Profil erkannt: Risikoaversion = {profil.risk_aversion} ]")
             
             # 2. Skala (1-10) in Prozente (zusammen 1.0) umrechnen
             total_points = profil.money_importance + profil.time_importance + profil.abstract_importance

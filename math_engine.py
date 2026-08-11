@@ -1,17 +1,19 @@
 import numpy as np
+import math
 
-def normalize_value(value: float, min_val: float, max_val: float) -> float:
+def normalize_utility(value: float) -> float:
     """
-    Wandelt einen beliebigen Wert in einen Score zwischen 0.0 und 1.0 um.
+    Normalisiert den Utility-Score (-100 bis +100) auf eine Skala von -1.0 bis 1.0.
+    Ein negativer Wert (Risiko) bleibt negativ!
     """
-    # Sicherheits-Check: Verhindert, dass der Computer durch Null teilt!
-    if max_val == min_val:
-        return 0.0 
-    
-    # Die rigorose mathematische Formel
-    score = (value - min_val) / (max_val - min_val)
-    
-    return score
+    return max(-1.0, min(1.0, value / 100.0))
+
+
+def normalize_financial_or_time(value: float, reference_max: float) -> float:
+        if reference_max == 0.0:
+            return 0.0 
+        
+        return math.tanh(value / reference_max)
 
 
 def calculate_weighted_utility(
@@ -114,65 +116,60 @@ def calculate_recommendation_index(results: np.ndarray, risk_aversion: float) ->
     return final_index
 
 
-
 from data_models import DecisionOption
 
-def run_full_analysis(option: DecisionOption, user_weights: dict, risk_aversion: float = 1.0) -> dict:
-    """
-    Die Haupt-Pipeline. Nimmt ein von der KI generiertes Objekt und 
-    jagt es durch die gesamte Mathematik-Engine.
-    """
+def run_full_analysis(option, user_weights: dict, risk_aversion: float = 1.0) -> dict:
     
-    # 1. Wir sammeln alle Konsequenzen (Risiken + Chancen)
-    all_consequences = option.opportunities + option.risks
+    # 1. FESTE REFERENZ-ANKER (Globaler Massstab für alle Optionen!)
+    # Definiert, ab wann ein Wert "extrem" (-1.0 oder +1.0) ist.
+    ANCHOR_MONEY = 2000.0  # 2000 CHF ist für Schüler ein sehr hoher Wert
+    ANCHOR_TIME = 600.0    # 600 Minuten (10h) aktive Arbeit ist ein massiver Aufwand
+
+    all_consequences = []
     
-    # Not-Aus: Wenn die KI keine Risiken/Chancen gefunden hat
+    # 2. ABSOLUTER SICHERHEITS-FILTER (Polarität erzwingen)
+    for opp in option.opportunities:
+        # Chancen MÜSSEN positiv sein (Wir nehmen den Betrag mit abs() )
+        opp.financial_chf = abs(opp.financial_chf)
+        opp.time_minutes = abs(opp.time_minutes)
+        all_consequences.append(opp)
+        
+    for risk in option.risks:
+        # Risiken MÜSSEN negativ sein (Wir erzwingen ein Minuszeichen)
+        risk.financial_chf = -abs(risk.financial_chf)
+        risk.time_minutes = -abs(risk.time_minutes)
+        all_consequences.append(risk)
+    
     if len(all_consequences) == 0:
         return {"error": "Keine Risiken oder Chancen zur Analyse gefunden."}
 
-    # 2. Wir definieren die globalen Extremwerte für dieses Szenario (für die Normalisierung)
-    # (Wir suchen den absolut höchsten und tiefsten CHF/Minuten-Wert)
-    max_money = max([c.financial_chf for c in all_consequences])
-    min_money = min([c.financial_chf for c in all_consequences])
-    
-    max_time = max([c.time_minutes for c in all_consequences])
-    min_time = min([c.time_minutes for c in all_consequences])
-
     np.random.seed(42)
-    
-    # Hier speichern wir alle 10'000 Simulationen für ALLE Konsequenzen zusammen
     total_simulation_results = np.zeros(10000)
 
-    # 3. Wir gehen jede einzelne Konsequenz durch
+    # 3. SAUBERE BERECHNUNG OHNE VORZEICHEN-DREHER
     for event in all_consequences:
         
-        # A) Werte normalisieren
-        score_money = normalize_value(event.financial_chf, min_money, max_money)
-        score_time = normalize_value(event.time_minutes, min_time, max_time)
-        score_abstract = normalize_value(event.utility_score, -100.0, 100.0)
+        # Durch die fixen Anker sind 4 CHF jetzt winzig und 1200 CHF massiv!
+        score_money = normalize_financial_or_time(event.financial_chf, ANCHOR_MONEY)
+        score_time = normalize_financial_or_time(event.time_minutes, ANCHOR_TIME)
+        score_abstract = normalize_utility(event.utility_score)
         
-        # B) Gewichteten Nutzen berechnen
         utility = calculate_weighted_utility(
             score_money, user_weights['money'],
             score_time, user_weights['time'],
             score_abstract, user_weights['abstract']
         )
         
-        # C) Monte-Carlo-Simulation für dieses Ereignis
         event_sim = simulate_event(event.probability, utility, event.uncertainty, 10000)
-        
-        # D) Zum Gesamtergebnis hinzufügen
         total_simulation_results += event_sim
 
-    # 4. Finale Metriken für die gesamte Entscheidung berechnen
     metrics = calculate_risk_metrics(total_simulation_results)
     index = calculate_recommendation_index(total_simulation_results, risk_aversion)
 
-    # 5. Ein sauberes Datenpaket (Report) zurückgeben
     return {
         "option_name": option.name,
         "recommendation_index": index,
         "VaR_95": metrics["VaR"],
         "CVaR": metrics["CVaR"],
-        "simulated_data": total_simulation_results # Behalten wir für spätere Grafiken!
+        "simulated_data": total_simulation_results 
     }
