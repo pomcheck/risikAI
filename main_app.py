@@ -1,12 +1,14 @@
 import os
 import json
 import time
+import streamlit as st
 from google import genai
 from google.genai import types
 from data_models import FullAnalysisPayload
 from math_engine import run_full_analysis
 
-client = genai.Client(api_key="AIzaSyA6yMxbvYYt3MEnRBrvtwKb3ilL9Pez5ko")
+api_key = st.secrets.get("GOOGLE_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+client = genai.Client(api_key=api_key)
 
 MEMORY_FILE = "memory.json"
 
