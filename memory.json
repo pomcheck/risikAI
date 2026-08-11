@@ -1,0 +1,201 @@
+[
+  {
+    "user_input": "Würdest du mir Linguistikolympiade oder Mathematikolympiade empfehlen? Oder lieber Physikolympiade?",
+    "ai_response": {
+      "user_profile": {
+        "money_importance": 5,
+        "time_importance": 9,
+        "abstract_importance": 7
+      },
+      "decision_options": [
+        {
+          "name": "Linguistikolympiade",
+          "opportunities": [
+            {
+              "name": "Kognitive Differenzierung",
+              "probability": 0.5,
+              "reasoning": "Fördert analytisches Denken in Sprachstrukturen, was ein einzigartiges Profil in interdisziplinären Feldern schafft.",
+              "utility_score": 50.0,
+              "financial_chf": 500.0,
+              "time_minutes": 600.0,
+              "uncertainty": 0.2
+            }
+          ],
+          "risks": [
+            {
+              "name": "Begrenzte Karriere-Skalierbarkeit",
+              "probability": 0.4,
+              "reasoning": "Der direkte Marktwert ist im Vergleich zu MINT-Disziplinen oft schwerer in monetäre Vorteile umzumünzen.",
+              "utility_score": -10.0,
+              "financial_chf": 0.0,
+              "time_minutes": 0.0,
+              "uncertainty": 0.3
+            }
+          ]
+        },
+        {
+          "name": "Mathematikolympiade",
+          "opportunities": [
+            {
+              "name": "Hohe akademische Hebelwirkung",
+              "probability": 0.4,
+              "reasoning": "Mathematische Exzellenz ist ein universeller Türöffner für Stipendien und Top-Karrieren in MINT-Bereichen.",
+              "utility_score": 80.0,
+              "financial_chf": 5000.0,
+              "time_minutes": 1200.0,
+              "uncertainty": 0.3
+            }
+          ],
+          "risks": [
+            {
+              "name": "Hoher Zeitaufwand und Burnout-Risiko",
+              "probability": 0.6,
+              "reasoning": "Die extreme Wettbewerbsdichte erfordert massiven Zeitaufwand, der bei ausbleibendem Erfolg zu Frustration führt.",
+              "utility_score": -50.0,
+              "financial_chf": 0.0,
+              "time_minutes": 2000.0,
+              "uncertainty": 0.2
+            }
+          ]
+        },
+        {
+          "name": "Physikolympiade",
+          "opportunities": [
+            {
+              "name": "Starke Synergie mit Ingenieurwesen",
+              "probability": 0.45,
+              "reasoning": "Physik-Wettbewerbe bieten eine exzellente Basis für technische Studiengänge und hochbezahlte Forschungsrollen.",
+              "utility_score": 70.0,
+              "financial_chf": 3000.0,
+              "time_minutes": 1000.0,
+              "uncertainty": 0.25
+            }
+          ],
+          "risks": [
+            {
+              "name": "Hohe Komplexitätshürde",
+              "probability": 0.5,
+              "reasoning": "Die Einstiegshürde ist sehr hoch, was bei mangelnder Vorbereitung zu einem schnellen Scheitern führen kann.",
+              "utility_score": -50.0,
+              "financial_chf": 0.0,
+              "time_minutes": 1500.0,
+              "uncertainty": 0.3
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "user_input": "Wie empfehlenswert ist die Teilnahme an der Wirtschaftsolympiade?",
+    "ai_response": {
+      "user_profile": {
+        "money_importance": 8,
+        "time_importance": 7,
+        "abstract_importance": 6,
+        "risk_aversion": 1.2
+      },
+      "decision_options": [
+        {
+          "name": "Teilnahme an der Wirtschaftsolympiade",
+          "opportunities": [
+            {
+              "name": "Karriere-Beschleunigung und Netzwerk",
+              "probability": 0.5,
+              "reasoning": "Erfolge in der Wirtschaftsolympiade signalisieren unternehmerisches Denken und bieten exzellente Networking-Möglichkeiten bei Sponsoren aus der Finanz- und Beratungsbranche.",
+              "utility_score": 80.0,
+              "financial_chf": 2000.0,
+              "time_minutes": 0.0,
+              "uncertainty": 0.2
+            },
+            {
+              "name": "Praktisches ökonomisches Verständnis",
+              "probability": 0.7,
+              "reasoning": "Die Vorbereitung vermittelt tiefgreifendes Wissen über Marktmechanismen, das direkt in Studium und Beruf anwendbar ist.",
+              "utility_score": 50.0,
+              "financial_chf": 500.0,
+              "time_minutes": 0.0,
+              "uncertainty": 0.1
+            }
+          ],
+          "risks": [
+            {
+              "name": "Hoher Opportunitätsaufwand",
+              "probability": 0.6,
+              "reasoning": "Die intensive Vorbereitung bindet Zeit, die alternativ für Praktika oder direkte Berufserfahrung genutzt werden könnte.",
+              "utility_score": -10.0,
+              "financial_chf": 0.0,
+              "time_minutes": 1500.0,
+              "uncertainty": 0.2
+            },
+            {
+              "name": "Frustration bei mangelndem Erfolg",
+              "probability": 0.3,
+              "reasoning": "Da der Wettbewerb stark selektiv ist, kann ein Ausbleiben der Platzierung zu einer negativen Kosten-Nutzen-Bilanz führen.",
+              "utility_score": -50.0,
+              "financial_chf": 0.0,
+              "time_minutes": 1000.0,
+              "uncertainty": 0.3
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "user_input": "Wie empfehlenswert wäre die Teilnahme an der Linguistikolmypiade?",
+    "ai_response": {
+      "user_profile": {
+        "money_importance": 4,
+        "time_importance": 7,
+        "abstract_importance": 8,
+        "risk_aversion": 1.0
+      },
+      "decision_options": [
+        {
+          "name": "Teilnahme an der Linguistikolympiade",
+          "opportunities": [
+            {
+              "name": "Intellektuelle Differenzierung",
+              "probability": 0.6,
+              "reasoning": "Die Teilnahme schärft analytische Fähigkeiten in der Sprachstruktur, was ein einzigartiges Profil für interdisziplinäre Studiengänge schafft.",
+              "utility_score": 50.0,
+              "financial_chf": 200.0,
+              "time_minutes": 0.0,
+              "uncertainty": 0.2
+            },
+            {
+              "name": "Netzwerk und akademische Anerkennung",
+              "probability": 0.3,
+              "reasoning": "Erfolge in diesem Nischenwettbewerb können bei spezifischen Stipendiengebern oder in der akademischen Laufbahn als exzellentes Signal dienen.",
+              "utility_score": 80.0,
+              "financial_chf": 1000.0,
+              "time_minutes": 0.0,
+              "uncertainty": 0.4
+            }
+          ],
+          "risks": [
+            {
+              "name": "Hoher Zeitaufwand ohne direkten Marktwert",
+              "probability": 0.5,
+              "reasoning": "Die Vorbereitung ist zeitintensiv und bietet im Vergleich zu MINT-Wettbewerben eine geringere direkte monetäre Hebelwirkung.",
+              "utility_score": -10.0,
+              "financial_chf": 0.0,
+              "time_minutes": 1200.0,
+              "uncertainty": 0.2
+            },
+            {
+              "name": "Frustration bei mangelndem Erfolg",
+              "probability": 0.3,
+              "reasoning": "Da die Linguistikolympiade sehr spezifische kognitive Muster erfordert, kann ein Scheitern zu einer negativen Bilanz der investierten Zeit führen.",
+              "utility_score": -50.0,
+              "financial_chf": 0.0,
+              "time_minutes": 800.0,
+              "uncertainty": 0.3
+            }
+          ]
+        }
+      ]
+    }
+  }
+]
