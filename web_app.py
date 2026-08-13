@@ -216,7 +216,7 @@ if st.session_state.analysis_data is None:
         col_p4.metric("Importanz: Emotionen", "33%")
         
         st.markdown("""
-        *   **Risikoaversion:** Wie ängstlich formulierst du? (1.0x = normal, 1.5x = vorsichtig). Höhere Werte bestrafen unsichere Optionen in der Mathematik massiv.
+        *   **Risikoaversion:** Wie ängstlich formulierst du? (1.0x = normal, 1.5x = vorsichtig). Höhere Werte bestrafen unsichere Optionen in der Mathematik stärker.
         *   **Importanz (Geld, Zeit, Emotionen):** Die Prozentzahlen steuern die Gewichtung der Monte-Carlo-Simulation.
         """)
 
@@ -226,14 +226,14 @@ if st.session_state.analysis_data is None:
         with st.container(border=True):
             st.markdown("<h4 style='text-align: center;'>GEBRAUCHTES AUTO KAUFEN</h4>", unsafe_allow_html=True)
             col_t1, col_t2, col_t3 = st.columns(3)
-            col_t1.metric("Empfehlungs-Index (0-100)", "50.1 / 100")
-            col_t2.metric("Value at Risk (95%)", "0.000")
-            col_t3.metric("Conditional VaR", "-0.041")
+            col_t1.metric("Empfehlungs-Index (0-100)", "13.2 / 100")
+            col_t2.metric("Value at Risk (95%)", "-0.775")
+            col_t3.metric("Conditional VaR", "-0.894")
             
         st.markdown("""
         *   **Empfehlungs-Index:** Ein Wert von 0 bis 100. Er fasst Chancen und Risiken zusammen, gewichtet nach deinem Profil.
-        *   **Value at Risk (VaR 95%):** Dein erwarteter Verlust-Nutzen. 0.000 bedeutet, dass in 95% der Fälle kein massiver Netto-Schaden entsteht.
-        *   **Conditional VaR:** Wenn absolut alles schiefgeht (das 5% Worst-Case-Szenario), ist das der durchschnittliche Schaden (-0.041), der dich erwartet.
+        *   **Value at Risk (VaR 95%):** Dein erwarteter Verlust-Nutzen. -0.775 bedeutet, dass in 95% der Fälle ein Netto-Schaden von 0.775 (auf einer normalisierten Skala von -1 bis 1) entsteht.
+        *   **Conditional VaR:** Wenn absolut alles schiefgeht (das 5% Worst-Case-Szenario), ist das der durchschnittliche Schaden (-0.894), der dich erwartet.
         """)
 
 # --- ERGEBNISSE ANZEIGEN (Greift auf das Gedächtnis zu) ---
