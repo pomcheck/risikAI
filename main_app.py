@@ -38,9 +38,7 @@ def save_to_memory(user_text, ai_json_response):
 # ==========================================
 
 def call_gemini_api(user_text: str, max_retries: int = 3) -> str:
-    
-    schema_regeln = FullAnalysisPayload.model_json_schema()
-    
+        
     memory_data = load_memory()
     memory_string = ""
     
@@ -98,7 +96,6 @@ def call_gemini_api(user_text: str, max_retries: int = 3) -> str:
     
     Analysiere nun dieses NEUE Szenario: "{user_text}"
     
-    Antworte AUSSCHLIESSLICH im validen JSON-Format und stets auf deutscher Sprache gemäss diesem Schema: {json.dumps(schema_regeln, sort_keys=True)}
     """
     
     for attempt in range(max_retries):
@@ -110,6 +107,7 @@ def call_gemini_api(user_text: str, max_retries: int = 3) -> str:
                     temperature=0.0,
                     seed=42,
                     response_mime_type="application/json",
+                    response_schema=FullAnalysisPayload,
                 )
             )
     

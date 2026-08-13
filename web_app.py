@@ -1,6 +1,7 @@
 import streamlit as st
 import json
 import time
+import html
 from data_models import FullAnalysisPayload
 from math_engine import run_full_analysis
 from main_app import call_gemini_api, save_to_memory
@@ -191,11 +192,11 @@ if st.button("Analyse starten", type="primary", use_container_width=True):
 
 # --- RESET BUTTON (Volle Breite, sanft animiert, direkt unter der Analyse) ---
 if st.session_state.analysis_data is not None:
-    st.button("Reset / Neu starten", on_click=reset_app, use_container_width=True)
+    st.button("Neu starten", on_click=reset_app, use_container_width=True)
 
 # --- TUTORIAL BEREICH (Nur sichtbar, wenn noch keine Analyse läuft) ---
 if st.session_state.analysis_data is None:
-    with st.expander("Wie funktioniert das? (Tutorial & Beispiel einblenden)"):
+    with st.expander("Wie funktioniert das? (Beispiel einblenden)"):
         st.markdown("""
         **Willkommen bei risikAI.**  
         Diese Engine analysiert deine Situation, ermittelt dein Profil und simuliert mögliche Zukünfte anhand mathematischer Modelle.
@@ -273,16 +274,23 @@ if st.session_state.analysis_data is not None:
             
             with st.expander("Gedankengänge der KI & Details einblenden"):
                 for chance in r['opportunities_raw']:
+                    # KI-Text entschärfen
+                    safe_name = html.escape(chance.name)
+                    safe_reasoning = html.escape(chance.reasoning)
+                    
                     st.markdown(
                         f'<div style="background-color: rgba(46, 204, 113, 0.1); padding: 10px; border-radius: 5px; border-left: 5px solid #2ecc71; margin-bottom: 10px;">'
-                        f' <b>{chance.name}</b> <em>(Chance: {chance.probability*100}%, CHF: {chance.financial_chf}, Zeit: {chance.time_minutes}, Emotion: {chance.utility_score})</em> <br>{chance.reasoning}'
+                        f' <b>{safe_name}</b> <em>(Chance: {chance.probability*100}%, CHF: {chance.financial_chf}, Zeit: {chance.time_minutes}, Emotion: {chance.utility_score})</em> <br>{safe_reasoning}'
                         f'</div>', 
                         unsafe_allow_html=True
                     )
                 for risiko in r['risks_raw']:
+                    safe_name = html.escape(risiko.name)
+                    safe_reasoning = html.escape(risiko.reasoning)
+                    
                     st.markdown(
                         f'<div style="background-color: rgba(231, 76, 60, 0.1); padding: 10px; border-radius: 5px; border-left: 5px solid #e74c3c; margin-bottom: 10px;">'
-                        f'<b>{risiko.name}</b> <em>(Chance: {risiko.probability*100}%, CHF: {risiko.financial_chf}, Zeit: {risiko.time_minutes}, Emotion: {risiko.utility_score})</em> <br>{risiko.reasoning}'
+                        f'<b>{safe_name}</b> <em>(Risiko: {risiko.probability*100}%, CHF: {risiko.financial_chf}, Zeit: {risiko.time_minutes}, Emotion: {risiko.utility_score})</em> <br>{safe_reasoning}'
                         f'</div>', 
                         unsafe_allow_html=True
                     )

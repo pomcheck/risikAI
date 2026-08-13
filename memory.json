@@ -1,187 +1,178 @@
 [
   {
-    "user_input": "Soll ich ein gebrauchtes Auto für 5000 CHF kaufen oder weiter Zug fahren (100 CHF pro Monat)? Ich hasse es, wenn Züge Verspätung haben",
+    "user_input": "Soll ich für mein anstehendes Praktikum bei Abrantix jeden Tag mit meinem Lexus CT200h pendeln (kostet mich etwa 12 CHF Benzin pro Tag, spart mir aber täglich 90 Minuten Zeit und ist extrem komfortabel) oder soll ich mein Valtinsu EM-5 Pro nutzen (kostet keinen Rappen, ich bin an der frischen Luft, aber ich verliere täglich 90 Minuten und komme bei Regen völlig durchnässt und gestresst an)?",
     "ai_response": {
       "user_profile": {
-        "money_importance": 7,
+        "money_importance": 6,
         "time_importance": 9,
-        "abstract_importance": 8,
-        "risk_aversion": 1.5
+        "abstract_importance": 7,
+        "risk_aversion": 1.8
       },
       "decision_options": [
         {
-          "name": "Gebrauchtes Auto kaufen",
-          "opportunities": [
-            {
-              "name": "Autonomie und Zeitgewinn",
-              "probability": 0.8,
-              "reasoning": "Die Unabhängigkeit von Fahrplänen reduziert den Stress durch Verspätungen massiv und spart tägliche Wartezeiten.",
-              "utility_score": 50.0,
-              "financial_chf": -5000.0,
-              "time_minutes": 3000.0,
-              "uncertainty": 0.2
-            }
-          ],
+          "name": "Pendeln mit Lexus CT200h",
           "risks": [
             {
-              "name": "Hohe Instandhaltungskosten",
-              "probability": 0.5,
-              "reasoning": "Ein gebrauchtes Auto für 5000 CHF birgt ein hohes Risiko für unerwartete Reparaturen und Wertverlust.",
-              "utility_score": -50.0,
-              "financial_chf": -2000.0,
-              "time_minutes": 600.0,
-              "uncertainty": 0.4
+              "name": "Benzinkosten",
+              "reasoning": "Tägliche Kosten von 12 CHF summieren sich über die Dauer des Praktikums zu einer finanziellen Belastung.",
+              "probability": 1,
+              "financial_chf": -12,
+              "time_minutes": 0,
+              "utility_score": -10,
+              "uncertainty": 0.1
+            }
+          ],
+          "opportunities": [
+            {
+              "name": "Zeitersparnis",
+              "reasoning": "Durch die Nutzung des Autos werden täglich 90 Minuten gegenüber dem Fahrrad gewonnen.",
+              "probability": 1,
+              "financial_chf": 0,
+              "time_minutes": 90,
+              "utility_score": 50,
+              "uncertainty": 0.1
+            },
+            {
+              "name": "Komfort und Stressreduktion",
+              "reasoning": "Das Auto bietet Schutz vor Witterung und einen hohen Komfort, was die psychische Belastung minimiert.",
+              "probability": 0.9,
+              "financial_chf": 0,
+              "time_minutes": 0,
+              "utility_score": 40,
+              "uncertainty": 0.2
             }
           ]
         },
         {
-          "name": "Weiter Zug fahren",
-          "opportunities": [
+          "name": "Pendeln mit Valtinsu EM-5 Pro",
+          "risks": [
             {
-              "name": "Finanzielle Stabilität",
-              "probability": 0.9,
-              "reasoning": "Die monatlichen Kosten von 100 CHF sind kalkulierbar und deutlich niedriger als die Gesamtkosten eines eigenen Fahrzeugs.",
-              "utility_score": 10.0,
-              "financial_chf": 1200.0,
-              "time_minutes": 0.0,
+              "name": "Zeitverlust",
+              "reasoning": "Die Fahrt mit dem Fahrrad dauert 90 Minuten länger als mit dem Auto, was die tägliche Freizeit massiv einschränkt.",
+              "probability": 1,
+              "financial_chf": 0,
+              "time_minutes": -90,
+              "utility_score": -50,
               "uncertainty": 0.1
-            }
-          ],
-          "risks": [
+            },
             {
-              "name": "Stress durch Verspätungen",
-              "probability": 0.7,
-              "reasoning": "Die Abhängigkeit vom öffentlichen Verkehr führt bei Verspätungen zu regelmäßigem Frust und Zeitverlust.",
-              "utility_score": -10.0,
-              "financial_chf": 0.0,
-              "time_minutes": -1200.0,
-              "uncertainty": 0.2
-            }
-          ]
-        }
-      ]
-    }
-  },
-  {
-    "user_input": "Soll ich ein gebrauchtes Auto für 5000 CHF kaufen oder weiter Zug fahren (100 CHF pro Monat)? Ich hasse es, wenn Züge Verspätung haben.",
-    "ai_response": {
-      "user_profile": {
-        "money_importance": 7,
-        "time_importance": 9,
-        "abstract_importance": 8,
-        "risk_aversion": 1.5
-      },
-      "decision_options": [
-        {
-          "name": "Gebrauchtes Auto kaufen",
-          "opportunities": [
-            {
-              "name": "Autonomie und Zeitgewinn",
-              "probability": 0.8,
-              "reasoning": "Die Unabhängigkeit von Fahrplänen reduziert den Stress durch Verspätungen massiv und spart tägliche Wartezeiten.",
-              "utility_score": 50.0,
-              "financial_chf": -5000.0,
-              "time_minutes": 3000.0,
-              "uncertainty": 0.2
-            }
-          ],
-          "risks": [
-            {
-              "name": "Hohe Instandhaltungskosten",
-              "probability": 0.5,
-              "reasoning": "Ein gebrauchtes Auto für 5000 CHF birgt ein hohes Risiko für unerwartete Reparaturen und Wertverlust.",
-              "utility_score": -50.0,
-              "financial_chf": -2000.0,
-              "time_minutes": 600.0,
-              "uncertainty": 0.4
-            }
-          ]
-        },
-        {
-          "name": "Weiter Zug fahren",
-          "opportunities": [
-            {
-              "name": "Finanzielle Stabilität",
-              "probability": 0.9,
-              "reasoning": "Die monatlichen Kosten von 100 CHF sind kalkulierbar und deutlich niedriger als die Gesamtkosten eines eigenen Fahrzeugs.",
-              "utility_score": 10.0,
-              "financial_chf": 1200.0,
-              "time_minutes": 0.0,
-              "uncertainty": 0.1
-            }
-          ],
-          "risks": [
-            {
-              "name": "Stress durch Verspätungen",
-              "probability": 0.7,
-              "reasoning": "Die Abhängigkeit vom öffentlichen Verkehr führt bei Verspätungen zu regelmäßigem Frust und Zeitverlust.",
-              "utility_score": -10.0,
-              "financial_chf": 0.0,
-              "time_minutes": -1200.0,
-              "uncertainty": 0.2
-            }
-          ]
-        }
-      ]
-    }
-  },
-  {
-    "user_input": "Soll ich morgen mit meinem Valtinsu EM-5 Pro E-Bike zur Schule nach Wettingen fahren (Gefahr auf Regen, kostet aber gar nichts und ich bin an der frischen Luft) oder den Lexus CT200h nehmen (kostet etwa 4 CHF Benzin, dafür bin ich sicher trocken)?",
-    "ai_response": {
-      "user_profile": {
-        "money_importance": 4,
-        "time_importance": 6,
-        "abstract_importance": 8,
-        "risk_aversion": 1.2
-      },
-      "decision_options": [
-        {
-          "name": "E-Bike zur Schule fahren",
-          "opportunities": [
-            {
-              "name": "Frische Luft und Fitness",
-              "probability": 0.9,
-              "reasoning": "Die Fahrt an der frischen Luft steigert das Wohlbefinden und die kognitive Wachheit vor dem Unterricht.",
-              "utility_score": 50.0,
-              "financial_chf": 0.0,
-              "time_minutes": 0.0,
-              "uncertainty": 0.1
-            }
-          ],
-          "risks": [
-            {
-              "name": "Witterungsbedingte Nässe",
+              "name": "Witterungsbedingter Stress",
+              "reasoning": "Bei Regen führt das Fahrradfahren zu Durchnässung und Stress, was die Arbeitsleistung beeinträchtigen kann.",
               "probability": 0.6,
-              "reasoning": "Bei Regen droht ein unangenehmer Schultag durch nasse Kleidung, was den Komfort massiv mindert.",
-              "utility_score": -50.0,
-              "financial_chf": 0.0,
-              "time_minutes": -15.0,
+              "financial_chf": 0,
+              "time_minutes": 0,
+              "utility_score": -40,
+              "uncertainty": 0.4
+            }
+          ],
+          "opportunities": [
+            {
+              "name": "Kosteneinsparung",
+              "reasoning": "Das Fahrrad verursacht keine direkten Treibstoffkosten, was das Budget schont.",
+              "probability": 1,
+              "financial_chf": 12,
+              "time_minutes": 0,
+              "utility_score": 10,
+              "uncertainty": 0
+            },
+            {
+              "name": "Frische Luft",
+              "reasoning": "Die körperliche Betätigung an der frischen Luft kann das allgemeine Wohlbefinden steigern.",
+              "probability": 0.8,
+              "financial_chf": 0,
+              "time_minutes": 0,
+              "utility_score": 20,
               "uncertainty": 0.3
             }
           ]
-        },
+        }
+      ]
+    }
+  },
+  {
+    "user_input": "Soll ich für mein anstehendes Praktikum bei Abrantix jeden Tag mit meinem Lexus CT200h pendeln (kostet mich etwa 12 CHF Benzin pro Tag, spart mir aber täglich 90 Minuten Zeit und ist extrem komfortabel) oder soll ich mein Valtinsu EM-5 Pro nutzen (kostet keinen Rappen, ich bin an der frischen Luft, aber ich verliere täglich 90 Minuten und komme bei Regen völlig durchnässt und gestresst an)?",
+    "ai_response": {
+      "user_profile": {
+        "money_importance": 6,
+        "time_importance": 9,
+        "abstract_importance": 7,
+        "risk_aversion": 1.8
+      },
+      "decision_options": [
         {
-          "name": "Lexus CT200h nehmen",
-          "opportunities": [
+          "name": "Pendeln mit Lexus CT200h",
+          "risks": [
             {
-              "name": "Witterungsschutz und Komfort",
-              "probability": 0.9,
-              "reasoning": "Die Fahrt im Auto garantiert Schutz vor Regen und sorgt für einen trockenen Start in den Tag.",
-              "utility_score": 50.0,
-              "financial_chf": -4.0,
-              "time_minutes": 0.0,
+              "name": "Benzinkosten",
+              "reasoning": "Tägliche Kosten von 12 CHF stellen eine direkte finanzielle Belastung dar.",
+              "probability": 1,
+              "financial_chf": -12,
+              "time_minutes": 0,
+              "utility_score": -10,
               "uncertainty": 0.1
             }
           ],
+          "opportunities": [
+            {
+              "name": "Zeitersparnis",
+              "reasoning": "Die tägliche Zeitersparnis von 90 Minuten ist ein signifikanter Gewinn an Lebensqualität.",
+              "probability": 1,
+              "financial_chf": 0,
+              "time_minutes": 90,
+              "utility_score": 50,
+              "uncertainty": 0.1
+            },
+            {
+              "name": "Komfort und Stressreduktion",
+              "reasoning": "Das Auto bietet Schutz vor Witterung und einen hohen Komfort, was die psychische Belastung minimiert.",
+              "probability": 0.9,
+              "financial_chf": 0,
+              "time_minutes": 0,
+              "utility_score": 40,
+              "uncertainty": 0.2
+            }
+          ]
+        },
+        {
+          "name": "Pendeln mit Valtinsu EM-5 Pro",
           "risks": [
             {
-              "name": "Finanzielle Kosten",
-              "probability": 1.0,
-              "reasoning": "Die Nutzung des Autos verursacht direkte Benzinkosten von 4 CHF pro Fahrt.",
-              "utility_score": -10.0,
-              "financial_chf": -4.0,
-              "time_minutes": 0.0,
-              "uncertainty": 0.0
+              "name": "Zeitverlust",
+              "reasoning": "Der tägliche Zeitverlust von 90 Minuten schränkt die verfügbare Freizeit massiv ein.",
+              "probability": 1,
+              "financial_chf": 0,
+              "time_minutes": -90,
+              "utility_score": -50,
+              "uncertainty": 0.1
+            },
+            {
+              "name": "Witterungsbedingter Stress",
+              "reasoning": "Bei Regen führt das Fahrradfahren zu Durchnässung und Stress, was die Arbeitsleistung beeinträchtigen kann.",
+              "probability": 0.6,
+              "financial_chf": 0,
+              "time_minutes": 0,
+              "utility_score": -40,
+              "uncertainty": 0.4
+            }
+          ],
+          "opportunities": [
+            {
+              "name": "Kosteneinsparung",
+              "reasoning": "Das Fahrrad verursacht keine direkten Treibstoffkosten, was das Budget schont.",
+              "probability": 1,
+              "financial_chf": 12,
+              "time_minutes": 0,
+              "utility_score": 10,
+              "uncertainty": 0
+            },
+            {
+              "name": "Frische Luft",
+              "reasoning": "Die körperliche Betätigung an der frischen Luft kann das allgemeine Wohlbefinden steigern.",
+              "probability": 0.8,
+              "financial_chf": 0,
+              "time_minutes": 0,
+              "utility_score": 20,
+              "uncertainty": 0.3
             }
           ]
         }

@@ -18,8 +18,18 @@ class Consequence(BaseModel):
 
 class DecisionOption(BaseModel):
     name: str
-    risks: List[Consequence] = []
-    opportunities: List[Consequence] = []
+    
+    # NEU: Klare Anweisung für das response_schema
+    risks: List[Consequence] = Field(
+        default=[], 
+        description="Liste ALLER Nachteile, Kosten, Risiken, Zeitverluste und negativen Aspekte."
+    )
+    
+    # NEU: Klare Anweisung für das response_schema
+    opportunities: List[Consequence] = Field(
+        default=[], 
+        description="Liste ALLER Vorteile, Gewinne, Zeitersparnisse und positiven Aspekte."
+    )
 
 class UserProfile(BaseModel):
     money_importance: int = Field(ge=1, le=10, description="Wie wichtig ist dem Nutzer finanzieller Gewinn/Verlust im Text?")
