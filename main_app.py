@@ -23,19 +23,16 @@ def save_to_memory(user_text, ai_json_response):
     """Speichert ein gutes Resultat ab. Behält maximal die 3 neuesten, um Kosten zu sparen."""
     memory = load_memory()
     
-    # Wir speichern den Text des Nutzers und die dazugehörige (gute) JSON-Antwort
     memory.append({
         "user_input": user_text, 
         "ai_response": json.loads(ai_json_response)
     })
     
-    # Damit der Prompt später nicht endlos lang wird, behalten wir nur die besten/letzten 3
     if len(memory) > 3:
         memory = memory[-3:]
         
     with open(MEMORY_FILE, "w", encoding="utf-8") as f:
         json.dump(memory, f, indent=2, ensure_ascii=False)
-# ==========================================
 
 def call_gemini_api(user_text: str, max_retries: int = 3) -> str:
         
@@ -49,7 +46,6 @@ def call_gemini_api(user_text: str, max_retries: int = 3) -> str:
             memory_string += f"Nutzer fragte: {entry['user_input']}\n"
             memory_string += f"Deine ideale Antwort war: {json.dumps(entry['ai_response'])}\n"
         memory_string += "----------------------\n"
-    # =======================================================
     
     prompt = f"""
     Du bist ein rigoroser Risiko-Analyst. Deine Aufgabe ist es, Entscheidungen konsistent zu bewerten.
@@ -116,19 +112,15 @@ def call_gemini_api(user_text: str, max_retries: int = 3) -> str:
         except Exception as e:
             error_message = str(e)
             
-            # Wir prüfen, ob es der typische Überlastungs-Fehler ist
             if "503" in error_message or "UNAVAILABLE" in error_message:
-                if attempt < max_retries - 1: # Wenn wir noch Versuche übrig haben
-                    wait_time = 2 ** attempt  # Rechnet: 1 Sekunde, dann 2, dann 4...
+                if attempt < max_retries - 1:
+                    wait_time = 2 ** attempt
                     print(f"\n[ Warnung: Google-Server sind kurzzeitig überlastet. ]")
                     print(f"[ System wartet {wait_time} Sekunden und startet Versuch {attempt + 2}/{max_retries}... ]")
                     time.sleep(wait_time)
                 else:
-                    # Nach 3 gescheiterten Versuchen geben wir auf
                     raise Exception("Die Google-Server sind aktuell dauerhaft überlastet. Bitte versuche es in ein paar Minuten noch einmal.")
             else:
-                # Wenn es ein anderer Fehler ist (z.B. falscher API-Key, kein Internet), 
-                # stürzen wir sofort ab, denn da hilft auch kein Warten.
                 raise e
 
 
@@ -151,19 +143,15 @@ if __name__ == "__main__":
         try:
             gemini_json_string = call_gemini_api(user_input)
             
-            # --- NEUER FILTER: LLM-Fehler in der Konsole abfangen ---
             analyse_daten = json.loads(gemini_json_string)
             if "error" in analyse_daten:
                 print(f"\n[ SYSTEM-STOPP: {analyse_daten['error']} ]")
-                continue # Bricht diesen Durchlauf ab und fragt nach neuem Text
-            # --------------------------------------------------------
+                continue 
             
-            # 1. JSON in unser Pydantic-Masterobjekt umwandeln
             payload = FullAnalysisPayload.model_validate_json(gemini_json_string)
             profil = payload.user_profile
             options_list = payload.decision_options
             
-            # 2. Skala (1-10) in Prozente (zusammen 1.0) umrechnen
             total_points = profil.money_importance + profil.time_importance + profil.abstract_importance
             user_weights = {
                 'money': profil.money_importance / total_points,
@@ -175,7 +163,6 @@ if __name__ == "__main__":
 
             all_reports = []
             
-            # 3. Ab in die Blackbox!
             for option_data in options_list:
                 report = run_full_analysis(
                     option=option_data, 
@@ -183,18 +170,14 @@ if __name__ == "__main__":
                     risk_aversion=profil.risk_aversion
                 )
                 
-                # Wir fügen die Reasoning-Texte dem Report hinzu, damit wir sie gleich drucken können
                 report['opportunities_raw'] = option_data.opportunities
                 report['risks_raw'] = option_data.risks
                 
                 all_reports.append(report)
             
-            # Wir sortieren die Reports nach dem Empfehlungs-Index (der Höchste zuerst!)
-            # Das ist ein typischer Python-Trick: lambda x sucht den Wert zum Sortieren.
             all_reports.sort(key=lambda x: x.get('recommendation_index', 0), reverse=True)
             
             print("================ RESULTATE (Rangliste) ================")
-            # Jetzt drucken wir sie nacheinander aus
             for i, r in enumerate(all_reports):
                 if "error" in r:
                     print(f"\nPlatz {i+1}: {r.get('option_name', 'Unbekannt')} -> FEHLER ({r['error']})")
@@ -220,7 +203,6 @@ if __name__ == "__main__":
                 print("[ Erfolgreich ins Erfahrungs-Archiv (memory.json) gespeichert! ]")
             else:
                 print("[ Analyse verworfen. System lernt nicht aus diesem Beispiel. ]")
-            # --------------------------------------------------------
                 
         except Exception as e:
             print(f"FEHLER: Ein Problem ist aufgetreten: {e}")

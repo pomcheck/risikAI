@@ -6,10 +6,10 @@ from data_models import FullAnalysisPayload
 from math_engine import run_full_analysis
 from main_app import call_gemini_api, save_to_memory
 
-# --- SEITEN-SETUP ---
+# --- SITE SETUP ---
 st.set_page_config(page_title="risikAI", layout="centered")
 
-# --- SESSION STATE INITIALISIERUNG (Das Gedächtnis der App) ---
+# --- SESSION STATE ---
 if "user_text_input" not in st.session_state:
     st.session_state.user_text_input = ""
 if "analysis_data" not in st.session_state:
@@ -17,7 +17,7 @@ if "analysis_data" not in st.session_state:
 if "feedback_saved" not in st.session_state:
     st.session_state.feedback_saved = False
 
-# --- CALLBACK FUNKTIONEN (Verhindern, dass die Seite beim Klicken leer wird) ---
+# --- CALLBACK FUNCTIONS ---
 def reset_app():
     st.session_state.user_text_input = ""
     st.session_state.analysis_data = None
@@ -133,7 +133,7 @@ user_input = st.text_area(
     placeholder="Soll ich Option A oder Option B wählen? Option A kostet..."
 )
 
-# --- DER ANALYSE-BUTTON ---
+# --- ANALYSE-BUTTON ---
 if st.button("Analyse starten", type="primary", use_container_width=True):
     if not user_input or len(user_input.strip()) < 5:
         st.warning("Eingabe zu kurz. Bitte beschreibe eine vollständige Entscheidungssituation mit Alternativen.")
@@ -190,11 +190,11 @@ if st.button("Analyse starten", type="primary", use_container_width=True):
                 "user_text": user_input
             }
 
-# --- RESET BUTTON (Volle Breite, sanft animiert, direkt unter der Analyse) ---
+# --- RESET BUTTON ---
 if st.session_state.analysis_data is not None:
     st.button("Neu starten", on_click=reset_app, use_container_width=True)
 
-# --- TUTORIAL BEREICH (Nur sichtbar, wenn noch keine Analyse läuft) ---
+# --- BEISPIEL BEREICH ---
 if st.session_state.analysis_data is None:
     with st.expander("Wie funktioniert das? (Beispiel einblenden)"):
         st.markdown("""
@@ -236,7 +236,7 @@ if st.session_state.analysis_data is None:
         *   **Conditional VaR:** Wenn absolut alles schiefgeht (das 5% Worst-Case-Szenario), ist das der durchschnittliche Schaden (-0.894), der dich erwartet.
         """)
 
-# --- ERGEBNISSE ANZEIGEN (Greift auf das Gedächtnis zu) ---
+# --- ERGEBNISSE ANZEIGEN ---
 if st.session_state.analysis_data is not None:
     data = st.session_state.analysis_data
     reports = data["reports"]
@@ -274,7 +274,6 @@ if st.session_state.analysis_data is not None:
             
             with st.expander("Gedankengänge der KI & Details einblenden"):
                 for chance in r['opportunities_raw']:
-                    # KI-Text entschärfen
                     safe_name = html.escape(chance.name)
                     safe_reasoning = html.escape(chance.reasoning)
                     
@@ -305,7 +304,6 @@ if st.session_state.analysis_data is not None:
         if not st.session_state.feedback_saved:
             st.button("Ja, als Vorbild speichern", on_click=save_feedback, args=(data["user_text"], data["raw_json"]), use_container_width=True)
         else:
-            # Ein deaktivierter Button behält exakt das gleiche Layout und die gleiche Grösse wie der aktive Button
             st.button("Erfolgreich im Erfahrungs-Archiv gespeichert!", disabled=True, use_container_width=True)
             
     with col_export:

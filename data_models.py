@@ -19,13 +19,11 @@ class Consequence(BaseModel):
 class DecisionOption(BaseModel):
     name: str
     
-    # NEU: Klare Anweisung für das response_schema
     risks: List[Consequence] = Field(
         default=[], 
         description="Liste ALLER Nachteile, Kosten, Risiken, Zeitverluste und negativen Aspekte."
     )
     
-    # NEU: Klare Anweisung für das response_schema
     opportunities: List[Consequence] = Field(
         default=[], 
         description="Liste ALLER Vorteile, Gewinne, Zeitersparnisse und positiven Aspekte."
