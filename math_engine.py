@@ -74,7 +74,7 @@ def calculate_risk_metrics(simulated_results: np.ndarray, confidence_level: floa
     }
 
 
-def calculate_recommendation_index(results: np.ndarray, risk_aversion: float) -> float:
+def calculate_recommendation_index(results: np.ndarray, risk_aversion: float, num_events: int) -> float:
     """
     Berechnet den finalen Empfehlungs-Index auf einer absoluten Skala von 0 bis 100.
     0 = Katastrophe, 50 = Neutral, 100 = Perfekt.
