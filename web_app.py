@@ -166,11 +166,11 @@ if st.button("Analyse starten", type="primary", use_container_width=True):
                 st.stop() 
 
         with st.spinner("Führe Monte-Carlo-Analysen aus..."):
-            total_points = profil.money_importance + profil.time_importance + profil.abstract_importance
+            total_points = profil.money_importance + profil.time_importance + profil.emotion_importance
             user_weights = {
                 'money': profil.money_importance / total_points,
                 'time': profil.time_importance / total_points,
-                'abstract': profil.abstract_importance / total_points
+                'abstract': profil.emotion_importance / total_points
             }
             
             all_reports = []
@@ -236,7 +236,7 @@ if st.session_state.analysis_data is None:
         *   **Conditional VaR:** Wenn absolut alles schiefgeht (das 5% Worst-Case-Szenario), ist das der durchschnittliche Schaden (-0.894), der dich erwartet.
         """)
 
-# --- ERGEBNISSE ANZEIGEN ---
+# --- ERGEBNISSE aANZEIGEN ---
 if st.session_state.analysis_data is not None:
     data = st.session_state.analysis_data
     reports = data["reports"]

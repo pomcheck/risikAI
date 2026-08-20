@@ -32,7 +32,7 @@ class DecisionOption(BaseModel):
 class UserProfile(BaseModel):
     money_importance: int = Field(ge=1, le=10, description="Wie wichtig ist dem Nutzer finanzieller Gewinn/Verlust im Text?")
     time_importance: int = Field(ge=1, le=10, description="Wie wichtig ist dem Nutzer Zeitersparnis oder Aufwand?")
-    abstract_importance: int = Field(ge=1, le=10, description="Wie wichtig sind dem Nutzer Emotionen, Stress oder ethische Werte?")
+    emotion_importance: int = Field(ge=1, le=10, description="Wie wichtig sind dem Nutzer Emotionen, Stress oder ethische Werte?")
     
     risk_aversion: float = Field(default=1.0, ge=0.5, le=3.0, description="Wie ängstlich oder vorsichtig klingt der Nutzer?")
 

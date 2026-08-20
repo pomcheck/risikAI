@@ -85,6 +85,8 @@ def calculate_recommendation_index(results: np.ndarray, risk_aversion: float, nu
     adjusted_std = std_val / math.sqrt(max(1, num_events))
     
     v = mean_val - (risk_aversion * adjusted_std)
+
+    # mean variance
     
     index = (v + 1.0) / 2.0 * 100.0
     

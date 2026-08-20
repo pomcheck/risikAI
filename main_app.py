@@ -51,7 +51,7 @@ def call_gemini_api(user_text: str, max_retries: int = 3) -> str:
     Du bist ein rigoroser Risiko-Analyst. Deine Aufgabe ist es, Entscheidungen konsistent zu bewerten.
     Gehe Schritt für Schritt vor. Erkläre im Feld "reasoning" deinen Gedankengang.
     
-    WICHTIGE NEUE REGEL (MULTI-OPTION):
+    WICHTIGE REGEL (MULTI-OPTION):
     Wenn der Nutzer zwischen mehreren Dingen schwankt (z.B. "Soll ich A oder B tun?"), 
     erstelle für JEDE dieser Optionen einen komplett EIGENEN Eintrag in der Liste "decision_options".
     Bewerte die Risiken und Chancen für jede Option separat.
@@ -122,87 +122,3 @@ def call_gemini_api(user_text: str, max_retries: int = 3) -> str:
                     raise Exception("Die Google-Server sind aktuell dauerhaft überlastet. Bitte versuche es in ein paar Minuten noch einmal.")
             else:
                 raise e
-
-
-if __name__ == "__main__":
-    print("===================================================")
-    print(" KI-Entscheidungs-Plattform (Maturaarbeit 2026) ")
-    print("===================================================\n")
-
-    while True:
-        print("\n" + "-"*50)
-        user_input = input("Beschreibe deine Entscheidung (oder 'exit' zum Beenden):\n> ")
-
-        user_input = user_input.strip()
-        
-        if user_input.lower() == 'exit':
-            break
-            
-        print("\n[ KI analysiert Text, extrahiert Profil und Daten... ]")
-        
-        try:
-            gemini_json_string = call_gemini_api(user_input)
-            
-            analyse_daten = json.loads(gemini_json_string)
-            if "error" in analyse_daten:
-                print(f"\n[ SYSTEM-STOPP: {analyse_daten['error']} ]")
-                continue 
-            
-            payload = FullAnalysisPayload.model_validate_json(gemini_json_string)
-            profil = payload.user_profile
-            options_list = payload.decision_options
-            
-            total_points = profil.money_importance + profil.time_importance + profil.abstract_importance
-            user_weights = {
-                'money': profil.money_importance / total_points,
-                'time': profil.time_importance / total_points,
-                'abstract': profil.abstract_importance / total_points
-            }
-            
-            print("[ Mathematik-Engine startet Monte-Carlo-Simulation... ]\n")
-
-            all_reports = []
-            
-            for option_data in options_list:
-                report = run_full_analysis(
-                    option=option_data, 
-                    user_weights=user_weights, 
-                    risk_aversion=profil.risk_aversion
-                )
-                
-                report['opportunities_raw'] = option_data.opportunities
-                report['risks_raw'] = option_data.risks
-                
-                all_reports.append(report)
-            
-            all_reports.sort(key=lambda x: x.get('recommendation_index', 0), reverse=True)
-            
-            print("================ RESULTATE (Rangliste) ================")
-            for i, r in enumerate(all_reports):
-                if "error" in r:
-                    print(f"\nPlatz {i+1}: {r.get('option_name', 'Unbekannt')} -> FEHLER ({r['error']})")
-                    continue
-                    
-                print(f"\n--- PLATZ {i+1}: {r['option_name'].upper()} ---")
-                print(f"Empfehlungs-Index:    {r['recommendation_index']:.1f} / 100")
-                print(f"Value at Risk (95%):  {r['VaR_95']:.3f}")
-                print(f"Conditional VaR:      {r['CVaR']:.3f}")
-                
-                print("\n  >> Begründung der KI:")
-                for chance in r['opportunities_raw']:
-                    print(f"  + Chance: {chance.name} ({chance.reasoning})")
-                for risiko in r['risks_raw']:
-                    print(f"  - Risiko: {risiko.name} ({risiko.reasoning})")
-            print("\n=======================================================")
-
-            print("\n[ TRAINING ]")
-            feedback = input("War diese Analyse logisch und gut bewertet? Speichern für die Zukunft? (j/n):\n> ")
-            
-            if feedback.lower() == 'j':
-                save_to_memory(user_input, gemini_json_string)
-                print("[ Erfolgreich ins Erfahrungs-Archiv (memory.json) gespeichert! ]")
-            else:
-                print("[ Analyse verworfen. System lernt nicht aus diesem Beispiel. ]")
-                
-        except Exception as e:
-            print(f"FEHLER: Ein Problem ist aufgetreten: {e}")
