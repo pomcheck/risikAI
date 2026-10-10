@@ -30,9 +30,28 @@ def save_feedback(text, json_data):
 # --- CSS OVERRIDES ---
 st.markdown("""
 <style>
-    .stApp { background-color: #0b0f19; }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Montserrat:wght@900&display=swap');
+
+    /* 1. Dynamischer App-Hintergrund und Textfarben */
+    .stApp {
+        background-color: var(--background-color);
+        color: var(--text-color);
+    }
     
-    /* Sanfter Einblend-Effekt und leichtes Pulsieren für den Reset-Button */
+    /* 2. Metrik-Karten dynamisch anpassen */
+    div[data-testid="stMetric"] {
+        background-color: var(--secondary-background-color) !important;
+        border: 1px solid rgba(128, 128, 128, 0.2) !important;
+        padding: 15px;
+        border-radius: 10px;
+    }
+    
+    div[data-testid="stMetric"] label,
+    div[data-testid="stMetric"] [data-testid="stMetricValue"] {
+        color: var(--text-color) !important;
+    }
+
+    /* 3. Button-Animationen */
     @keyframes softPulse {
         0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.2); }
         50% { box-shadow: 0 0 10px 0 rgba(46, 204, 113, 0.1); }
@@ -46,7 +65,7 @@ st.markdown("""
 
     .stButton>button, .stDownloadButton>button {
         border-radius: 8px;
-        border: 1px solid rgba(46, 204, 113, 0.4);
+        border: 1px solid rgba(46, 204, 113, 0.5);
         transition: all 0.3s ease;
         animation: fadeInDown 0.5s ease-out, softPulse 3s infinite;
     }
@@ -56,9 +75,8 @@ st.markdown("""
         box-shadow: 0 0 15px rgba(46, 204, 113, 0.3);
     }
     
-    /* Primär-Button (Analyse starten) ohne das Pulsieren */
     .stButton>button[kind="primary"] {
-        border: 1px solid rgba(255, 75, 75, 0.5) !important;
+        border: 1px solid rgba(255, 75, 75, 0.6) !important;
         animation: none !important;
     }
     .stButton>button[kind="primary"]:hover {
@@ -66,15 +84,7 @@ st.markdown("""
         box-shadow: 0 0 15px rgba(255, 75, 75, 0.5) !important;
     }
     
-    div[data-testid="stMetric"] {
-        background-color: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        padding: 15px;
-        border-radius: 10px;
-    }
-    
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Montserrat:wght@900&display=swap');
-    
+    /* 4. Titel & Gradient-Animation */
     @keyframes shimmer {
         0% { background-position: 0% 50%; }
         50% { background-position: 100% 50%; }
@@ -88,7 +98,7 @@ st.markdown("""
     
     .animated-title {
         font-family: 'Montserrat', sans-serif !important;
-        font-size: clamp(4rem, 10vw, 9rem) !important; 
+        font-size: clamp(3.5rem, 8vw, 7rem) !important; 
         font-weight: 900 !important;
         letter-spacing: -1px !important; 
         background: linear-gradient(90deg, #2ecc71, #3498db, #8e44ad, #2ecc71);
@@ -103,22 +113,29 @@ st.markdown("""
     }
     
     .animated-title:hover {
-        letter-spacing: 8px !important; 
-        text-shadow: 0px 0px 20px rgba(46, 204, 113, 0.15); 
-        transform: scale(1.03); 
+        letter-spacing: 6px !important; 
+        text-shadow: 0px 0px 20px rgba(46, 204, 113, 0.2); 
+        transform: scale(1.02); 
     }
     
+    /* Untertitel passt sich automatisch an Hell/Dunkel an */
     .animated-subtitle {
         font-family: 'Inter', sans-serif !important;
-        color: #a0aec0 !important;
-        font-size: 1.5rem !important;
+        color: var(--text-color) !important;
+        opacity: 0.75 !important;
+        font-size: 1.3rem !important;
         font-weight: 500 !important;
         letter-spacing: 2px !important;
         animation: slideUpFade 0.8s ease-out 0.3s forwards;
-        opacity: 0; 
+    }
+
+    /* Container mit Rahmen im Light/Dark Mode sauber abgrenzen */
+    div[data-testid="stVerticalBlockBorderWrapper"] {
+        background-color: var(--secondary-background-color);
+        border-radius: 10px;
     }
 </style>
-<div style="text-align: center; margin-top: 2rem; margin-bottom: 4rem;">
+<div style="text-align: center; margin-top: 1rem; margin-bottom: 2rem;">
     <div class="animated-title">risikAI</div>
     <p class="animated-subtitle">KI-gestützte Entscheidungshilfe</p>
 </div>
