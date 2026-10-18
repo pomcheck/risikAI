@@ -213,7 +213,7 @@ if st.session_state.analysis_data is not None:
 
 # --- BEISPIEL BEREICH ---
 if st.session_state.analysis_data is None:
-    with st.expander("Wie funktioniert das? (Beispiel einblenden)"):
+    with st.expander("Wie funktioniert das? (Erklärung einblenden)"):
         st.markdown("""
         **Willkommen bei risikAI.**  
         Diese Engine analysiert deine Situation, ermittelt dein Profil und simuliert mögliche Zukünfte anhand mathematischer Modelle.
@@ -223,18 +223,18 @@ if st.session_state.analysis_data is None:
         """)
         
         st.markdown("---")
-        st.markdown("**1. Der Persönlichkeits-Scan:**")
+        st.markdown("**1. Dein Nutzerprofil**")
         st.markdown("Die KI liest zwischen den Zeilen und ermittelt aus deinem Text, was dir unterbewusst am wichtigsten ist.")
         
         col_p1, col_p2, col_p3, col_p4 = st.columns(4)
         col_p1.metric("Risikoaversion", "1.5x")
-        col_p2.metric("Importanz: Geld", "29%")
-        col_p3.metric("Importanz: Zeit", "38%")
-        col_p4.metric("Importanz: Emotionen", "33%")
+        col_p2.metric("Gewichtung: Geld", "29%")
+        col_p3.metric("Gewichtung: Zeit", "38%")
+        col_p4.metric("Gewichtung: Emotionen", "33%")
         
         st.markdown("""
         *   **Risikoaversion:** Wie ängstlich formulierst du? (1.0x = normal, 1.5x = vorsichtig). Höhere Werte bestrafen unsichere Optionen in der Mathematik stärker.
-        *   **Importanz (Geld, Zeit, Emotionen):** Die Prozentzahlen steuern die Gewichtung der Monte-Carlo-Simulation.
+        *   **Gewichtung (Geld, Zeit, Emotionen):** Die Prozentzahlen steuern die Gewichtung der Monte-Carlo-Simulation.
         """)
 
         st.markdown("---")
@@ -264,12 +264,12 @@ if st.session_state.analysis_data is not None:
     
     st.success("Analyse erfolgreich abgeschlossen!")
     
-    st.subheader("Profil-Analyse der KI")
+    st.subheader("Abgeleitetes Nutzeroprofil")
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Risikoaversion", f"{profil.risk_aversion}x")
-    col2.metric("Importanz: Geld", f"{weights['money']*100:.0f}%")
-    col3.metric("Importanz: Zeit", f"{weights['time']*100:.0f}%")
-    col4.metric("Importanz: Emotionen", f"{weights['abstract']*100:.0f}%")
+    col2.metric("Gewichtung: Geld", f"{weights['money']*100:.0f}%")
+    col3.metric("Gewichtung: Zeit", f"{weights['time']*100:.0f}%")
+    col4.metric("Gewichtung: Emotionen", f"{weights['abstract']*100:.0f}%")
     
     st.divider()
     
@@ -289,7 +289,7 @@ if st.session_state.analysis_data is not None:
             m2.metric("Value at Risk (95%)", f"{r['VaR_95']:.3f}")
             m3.metric("Conditional VaR", f"{r['CVaR']:.3f}")
             
-            with st.expander("Gedankengänge der KI & Details einblenden"):
+            with st.expander("Begründung des Modells einblenden"):
                 for chance in r['opportunities_raw']:
                     safe_name = html.escape(chance.name)
                     safe_reasoning = html.escape(chance.reasoning)
@@ -313,7 +313,7 @@ if st.session_state.analysis_data is not None:
 
     st.divider()
     
-    st.subheader("System-Training & Daten-Export")
+    st.subheader("Weitere Aktionen")
     col_train, col_export = st.columns(2)
     
     with col_train:
@@ -321,7 +321,7 @@ if st.session_state.analysis_data is not None:
         if not st.session_state.feedback_saved:
             st.button("Ja, als Vorbild speichern", on_click=save_feedback, args=(data["user_text"], data["raw_json"]), use_container_width=True)
         else:
-            st.button("Erfolgreich im Erfahrungs-Archiv gespeichert!", disabled=True, use_container_width=True)
+            st.button("Erfolgreich im Beispielarchiv gespeichert!", disabled=True, use_container_width=True)
             
     with col_export:
         st.markdown("**Rohdaten exportieren:**")
