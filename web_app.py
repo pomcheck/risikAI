@@ -264,7 +264,7 @@ if st.session_state.analysis_data is not None:
     
     st.success("Analyse erfolgreich abgeschlossen!")
     
-    st.subheader("Abgeleitetes Nutzeroprofil")
+    st.subheader("Abgeleitetes Nutzerprofil")
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Risikoaversion", f"{profil.risk_aversion}x")
     col2.metric("Gewichtung: Geld", f"{weights['money']*100:.0f}%")
