@@ -1,0 +1,7 @@
+test_series,test_id,status,t_api_sec,t_math_sec,t_total_sec,option_name,index_score,var_95,cvar_95,risk_aversion_gamma
+Testreihe_D,Stress_Kauderwelsch,Success,2.718,0.0,2.718,error,,,,1.5
+Testreihe_D,Stress_Philosophie,Success,3.305,0.0664,3.372,Philosophische Sinnsuche,0.9,-1.4892,-1.9192,1.5
+Testreihe_D,Stress_Philosophie,Success,3.305,0.0009,3.306,Hedonistische Glückssuche,36.37,-0.4922,-0.646,1.5
+Testreihe_D,Stress_Tatsache,Success,3.091,0.0008,3.092,Kauf eines Schoggigipfelis,51.78,0.0355,0.0355,1.0
+Testreihe_D,Stress_Unvollstaendig,Success,4.058,0.0014,4.059,Neues Fahrrad kaufen,38.64,-0.5773,-0.753,1.5
+Testreihe_D,Stress_Unvollstaendig,Success,4.058,0.0008,4.059,Altes Fahrrad behalten,40.27,-0.47,-0.6509,1.5
