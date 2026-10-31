@@ -249,7 +249,7 @@ if st.session_state.analysis_data is None:
             
         st.markdown("""
         *   **Empfehlungs-Index:** Ein Wert von 0 bis 100. Er fasst Chancen und Risiken zusammen, gewichtet nach deinem Profil.
-        *   **Value at Risk (VaR 95%):** Dein erwarteter Verlust-Nutzen. -0.775 bedeutet, dass in 95% der Fälle ein Netto-Schaden von 0.775 (auf einer normalisierten Skala von -1 bis 1) entsteht.
+        *   **Value at Risk (VaR 95%):** Dein erwarteter Verlust-Nutzen. -0.775 bedeutet, dass in 95% der Fälle das Ergebnis besser als -0.775 ist (auf einer normalisierten Skala von -1 bis 1).
         *   **Conditional VaR:** Wenn absolut alles schiefgeht (das 5% Worst-Case-Szenario), ist das der durchschnittliche Schaden (-0.894), der dich erwartet.
         """)
 
